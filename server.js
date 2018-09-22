@@ -1,11 +1,12 @@
 const express = require('express');
-const MTA_API_KEY = require('../secrets');
+// const MTA_API_KEY = require('../secrets');
 const utils = require('./utils');
 const striptags = require('striptags');
 const app = express();
+const PORT = process.env.PORT || 3000;
 const Mta = require('mta-gtfs');
 const mta = new Mta({
-  key: MTA_API_KEY, // only needed for mta.schedule() method
+  key: process.env.MTA_API_KEY, // only needed for mta.schedule() method
   feed_id: 1                  // optional, default = 1
 });
 
@@ -88,7 +89,7 @@ app.get('/station/:stationId', async (req, res) => {
   }
 })
 
-const server = app.listen(3000, () => {
+const server = app.listen(PORT, () => {
   const { address, port } = server.address();
   console.log(`Listening at http://${address}:${port}`);
 });
