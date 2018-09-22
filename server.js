@@ -28,11 +28,12 @@ app.get('/api/status/', async (req, res) => {
 })
 
 //gets trains and arrival times between 0-30 min for a specific station and direction
-app.get('/api/station/:stationId/:direction', async (req, res) => {
+app.get('/api/station/:stationId/:direction/:feedId', async (req, res) => {
   try {
     const station = req.params.stationId;
     const direction = req.params.direction;
-    const stationResults = await mta.schedule(station, 1);
+    const feed = req.params.feedId
+    const stationResults = await mta.schedule(station, feed);
     const lastUpdated = stationResults["updatedOn"];
     const incomingTrainData = stationResults["schedule"][station][direction].filter(train => train["arrivalTime"] >= lastUpdated && (train["arrivalTime"] - utils.currentEpochTime()) <= 1800);
     const incomingTrains = incomingTrainData.map(incomingTrain => {
