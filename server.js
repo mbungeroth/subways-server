@@ -1,5 +1,5 @@
 const express = require('express');
-// const MTA_API_KEY = require('../secrets');
+// const MTA_API_KEY = require('./secrets');
 const utils = require('./utils');
 const striptags = require('striptags');
 const app = express();
