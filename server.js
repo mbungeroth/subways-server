@@ -24,7 +24,6 @@ app.get('/api/notices', async (req, res) => {
     res.send(status)
   } catch (error) {
     console.log(error)
-    res.send("couldn't connect")
   }
 })
 
