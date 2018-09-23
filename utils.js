@@ -16,6 +16,7 @@ const cleanText = text => {
       .replace(/  +/g, ' ')
       .replace(/(&nbsp;)/g, '')
       .replace(/\r/g,"")
+      .replace(/(&bull;)/g, '\n')
       .split(/\n/)
       .reduce((arr, current) => {
         if (current.match(/[a-z]/i)) {
