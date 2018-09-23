@@ -13,7 +13,7 @@ const mta = new Mta({
 //gets all status updates on all lines (only includes problems)
 app.get('/api/status', async (req, res) => {
   try {
-    // const statusResults = await mta.status('subway');
+    const statusResults = await mta.status('subway');
     // const status = statusResults.filter(statement => statement["status"] !== "GOOD SERVICE").map(notice => {
     //   return ({
     //     lines: notice["name"],
@@ -21,7 +21,7 @@ app.get('/api/status', async (req, res) => {
     //     info: utils.cleanText(striptags(notice["text"]))
     //   })
     // });
-    res.send('hi')
+    res.send(statusResults)
   } catch (error) {
     console.log(error)
   }
