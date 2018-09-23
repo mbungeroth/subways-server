@@ -28,7 +28,7 @@ app.get('/api/status/', async (req, res) => {
 })
 
 //gets trains and arrival times between 0-30 min for a specific station and direction
-app.get('/api/station/:stationId/:direction/:feedId', async (req, res) => {
+app.get('/api/station/:stationId/:direction/:feedId', async (req, res, next) => {
   try {
     const station = req.params.stationId;
     const direction = req.params.direction;
@@ -46,7 +46,7 @@ app.get('/api/station/:stationId/:direction/:feedId', async (req, res) => {
     res.send(incomingTrains)
     // res.send(stationResults)
   } catch (error) {
-    console.log(error)
+    next(error)
   }
 })
 
@@ -75,6 +75,18 @@ app.get('/api', async (req, res) => {
   } catch (error) {
     console.log(error)
   }
+})
+
+app.use(function (err, req, res, next) {
+  console.error(err.stack)
+  const errorContent = [
+    {
+      "train": "No current MTA data",
+      "delay": null,
+      "time": ""
+    },
+  ]
+  res.status(500).send(errorContent)
 })
 
 const server = app.listen(PORT, () => {
