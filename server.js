@@ -14,14 +14,14 @@ const mta = new Mta({
 app.get('/api/status', async (req, res) => {
   try {
     const statusResults = await mta.status('subway');
-    // const status = statusResults.filter(statement => statement["status"] !== "GOOD SERVICE").map(notice => {
-    //   return ({
-    //     lines: notice["name"],
-    //     type: notice["status"],
-    //     info: utils.cleanText(striptags(notice["text"]))
-    //   })
-    // });
-    res.send(statusResults)
+    const status = statusResults.filter(statement => statement["status"] !== "GOOD SERVICE").map(notice => {
+      return ({
+        lines: notice["name"],
+        type: notice["status"],
+        info: utils.cleanText(striptags(notice["text"]))
+      })
+    });
+    res.send(status)
   } catch (error) {
     console.log(error)
   }
