@@ -44,7 +44,6 @@ app.get('/api/station/:stationId/:direction/:feedId', async (req, res, next) => 
       })
     })
     res.send(incomingTrains)
-    // res.send(stationResults)
   } catch (error) {
     next(error)
   }
@@ -52,10 +51,7 @@ app.get('/api/station/:stationId/:direction/:feedId', async (req, res, next) => 
 
 app.get('/api/stops', async (req, res) => {
   try {
-    // const result = await mta.schedule(635, 1);
     const result = await mta.stop();
-    // const time = new Date(result.updatedOn * 1000).toLocaleTimeString();
-    // res.json(time);
     const results = Object.keys(result).map(key => {
       return ({
       line: key[0],
@@ -78,7 +74,6 @@ app.get('/api', async (req, res) => {
 })
 
 app.use(function (err, req, res, next) {
-  console.error(err.stack)
   const errorContent = [
     {
       "train": "No current MTA data",
@@ -86,7 +81,7 @@ app.use(function (err, req, res, next) {
       "time": ""
     },
   ]
-  res.status(500).send(errorContent)
+  res.send(errorContent)
 })
 
 const server = app.listen(PORT, () => {
