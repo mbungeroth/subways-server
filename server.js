@@ -11,7 +11,7 @@ const mta = new Mta({
 });
 
 //gets all status updates on all lines (only includes problems)
-app.get('/api/status/', async (req, res) => {
+app.get('/api/status', async (req, res) => {
   try {
     const statusResults = await mta.status('subway');
     const status = statusResults.filter(statement => statement["status"] !== "GOOD SERVICE").map(notice => {
