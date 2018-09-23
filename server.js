@@ -49,30 +49,6 @@ app.get('/api/station/:stationId/:direction/:feedId', async (req, res, next) => 
   }
 })
 
-app.get('/api/stops', async (req, res) => {
-  try {
-    const result = await mta.stop();
-    const results = Object.keys(result).map(key => {
-      return ({
-      line: key[0],
-      stationId: result[key]["stop_id"],
-      stopName: result[key]["stop_name"]
-    })
-    }).filter(station => station["stationId"].length === 3);
-    res.json(result)
-  } catch (error) {
-    console.log(error)
-  }
-})
-
-app.get('/api', async (req, res) => {
-  try {
-    res.send('hi')
-  } catch (error) {
-    console.log(error)
-  }
-})
-
 app.use(function (err, req, res, next) {
   const errorContent = [
     {
