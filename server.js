@@ -10,22 +10,8 @@ const mta = new Mta({
   feed_id: 1                  // optional, default = 1
 });
 
-//gets all status updates on all lines (only includes problems)
-app.get('/api/notices', async (req, res) => {
-  try {
-    const statusResults = await mta.status('subway');
-    const status = statusResults.filter(statement => statement["status"] !== "GOOD SERVICE").map(notice => {
-      return ({
-        lines: notice["name"],
-        type: notice["status"],
-        info: utils.cleanText(striptags(notice["text"]))
-      })
-    });
-    res.send(status)
-  } catch (error) {
-    console.log(error)
-  }
-})
+app.use(express.json())
+app.use(express.urlencoded({extended: true}))
 
 //gets trains and arrival times between 0-30 min for a specific station and direction
 app.get('/api/station/:stationId/:direction/:feedId', async (req, res, next) => {
@@ -46,6 +32,23 @@ app.get('/api/station/:stationId/:direction/:feedId', async (req, res, next) => 
     res.send(incomingTrains)
   } catch (error) {
     next(error)
+  }
+})
+
+//gets all status updates on all lines (only includes problems)
+app.get('/api/notices', async (req, res) => {
+  try {
+    const statusResults = await mta.status('subway');
+    const status = statusResults.filter(statement => statement["status"] !== "GOOD SERVICE").map(notice => {
+      return ({
+        lines: notice["name"],
+        type: notice["status"],
+        info: utils.cleanText(striptags(notice["text"]))
+      })
+    });
+    res.send(status)
+  } catch (error) {
+    console.log(error)
   }
 })
 
