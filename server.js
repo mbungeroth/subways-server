@@ -39,13 +39,13 @@ app.get('/api/station/:stationId/:direction/:feedId', async (req, res, next) => 
 app.get('/api/notices', async (req, res) => {
   try {
     const statusResults = await mta.status('subway');
-    // const status = statusResults.filter(statement => statement["status"] !== "GOOD SERVICE").map(notice => {
-    //   return ({
-    //     lines: notice["name"],
-    //     type: notice["status"],
-    //     info: utils.cleanText(striptags(notice["text"]))
-    //   })
-    // });
+    const status = statusResults.filter(statement => statement["status"] !== "GOOD SERVICE").map(notice => {
+      return ({
+        lines: notice["name"],
+        type: notice["status"],
+        info: utils.cleanText(striptags(notice["text"]))
+      })
+    });
     res.send(statusResults)
   } catch (error) {
     console.log(error)
