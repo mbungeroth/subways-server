@@ -46,7 +46,7 @@ app.get('/api/notices', async (req, res) => {
         info: utils.cleanText(striptags(notice["text"]))
       })
     });
-    res.send(statusResults)
+    res.send(status)
   } catch (error) {
     console.log(error)
   }
