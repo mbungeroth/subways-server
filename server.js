@@ -10,6 +10,8 @@ const mta = new Mta({
   feed_id: 1                  // optional, default = 1
 });
 
+const request = require('node-fetch');
+
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
@@ -38,6 +40,10 @@ app.get('/api/station/:stationId/:direction/:feedId', async (req, res, next) => 
 //gets all status updates on all lines (only includes problems)
 app.get('/api/notices', async (req, res) => {
   try {
+    let responseFromRequest = await request('http://web.mta.info/status/serviceStatus.txt');
+    // console.log('response --> ', responseFromRequest);
+    let text = await responseFromRequest.text();
+    console.log(text.slice(0, 1000));
     const statusResults = await mta.status('subway');
     const status = statusResults.filter(statement => statement["status"] !== "GOOD SERVICE").map(notice => {
       return ({
